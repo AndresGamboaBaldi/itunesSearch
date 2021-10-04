@@ -32,9 +32,17 @@
           </v-row>
         </div>
       </v-form>
+       <div>
+        <v-pagination
+          v-model="page"
+          :length="5"
+          circle
+          @input="getDataPage"
+        ></v-pagination>
+      </div>
       <div>
        <v-row>
-        <v-col cols="2" v-for="result in results"
+        <v-col cols="2" v-for="result in resultsOnPage"
           :key="result.id">
           <v-card>
             <v-img 
@@ -59,8 +67,6 @@
             <v-card-subtitle>
               {{  result.currency + result.collectionPrice}}
             </v-card-subtitle>
-
-
           </v-card>    
         </v-col>
       </v-row>    
@@ -80,18 +86,19 @@ import axios from "axios";
       term: null,
       entity:"song",
       media:"music",
+      page: 1,
       itemsPerPage: 20,
+      resultsOnPage: []
     }),
     methods: {
     async search() {
       await axios
         .get(
-          `https://itunes.apple.com/search?term=${this.term}&media=${this.media}&entity=${this.entity}&limit=200`
+          `https://itunes.apple.com/search?term=${this.term}&media=${this.media}&entity=${this.entity}&limit=100`
         )
         .then((res) => {
-          console.log(res);
-          console.log("res: " + res.data.results[0].artistName);
           this.results = res.data.results;
+          this.getDataPage(1)
         });
     },
     sortAlphabeticA_Z() {
@@ -107,7 +114,14 @@ import axios from "axios";
     seconds = (seconds < 10) ? "0" + seconds : seconds;
 
     return  minutes + ":" + seconds;
-    }
+    },
+    getDataPage(page) {
+      this.resultsOnPage = this.results.slice(
+        (this.page - 1) * this.itemsPerPage,
+        this.page * this.itemsPerPage
+      );
+      console.log(page)
+    },
   },
 };
 </script>
