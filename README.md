@@ -1,4 +1,9 @@
-# codeexercise
+# iTunes Search
+
+## Functionaity
+```
+This project, implemented with Vue 2 and Vuetify helps to search for a song by name or all songs by the artist, extracted directly using the iTunes Seach API.
+```
 
 ## Project setup
 ```
@@ -13,11 +18,6 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
 ```
 
 ### Customize configuration
